@@ -9,18 +9,18 @@ import tkinter as tk
 from tkinter import messagebox
 from openai import OpenAI
 
-# OpenAI API key
+# OpenAI API key/back end
 api_key = 'Api key'  # Replace with API key
 client = OpenAI(api_key=api_key)
 model = 'gpt-3.5-turbo'
 
-# Set up the speech recognition and text-to-speech engines
+# Set up the speech recognition and text-to-speech engines/back end
 r = sr.Recognizer()
 engine = pyttsx3.init()
 voice = engine.getProperty('voices')[1]  # Set voice
 engine.setProperty('voice', voice.id)
 
-# GUI Setup
+# GUI Setup/Front end
 root = tk.Tk()
 root.title("Voice Assistant JARVIS")
 root.geometry("500x600")
@@ -85,7 +85,7 @@ footer.pack(pady=10)
 
 # Functions for handling inputs, speech, and interaction
 
-# Process typed input
+# Process typed input/back end
 def process_input():
     user_text = input_box.get("1.0", tk.END).strip()  # Get text from the Text box
     if user_text:  # Ensure input is not empty
@@ -99,11 +99,11 @@ def process_input():
     else:
         messagebox.showwarning("Warning", "Please enter some text!")
 
-# Function to clear conversation
+# Function to clear conversation/front end
 def clear_conversation():
     output.delete(1.0, tk.END)  # Clear all text in the output box
 
-# Get OpenAI response
+# Get OpenAI response/back end
 def get_openai_response(command):
     try:
         response = client.chat.completions.create(
@@ -114,13 +114,13 @@ def get_openai_response(command):
     except Exception as e:
         return f"Error: {str(e)}"
 
-# Speak a given text
+# Speak a given text/back end
 def speak(text):
     tts = gTTS(text=text, lang='en', slow=False)
     tts.save("response.mp3")
     os.system("mpg123 response.mp3")  # Play the response audio using mpg123
 
-# Listen for the "Hey Jarvis" wake word
+# Listen for the "Hey Jarvis" wake word/back end
 def listen_for_wake_word():
     with sr.Microphone() as source:
         r.adjust_for_ambient_noise(source)
@@ -142,7 +142,7 @@ def listen_for_wake_word():
                 output.insert(tk.END, f"JARVIS: Error: {e}\n")
                 print(f"Error: {e}")
 
-# Listen for commands after "Hey Jarvis" is detected
+# Listen for commands after "Hey Jarvis" is detected/front end
 def listen_and_respond():
     with sr.Microphone() as source:
         r.adjust_for_ambient_noise(source)
